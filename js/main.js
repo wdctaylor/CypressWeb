@@ -90,16 +90,40 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 
   // Touch swipe (mobile)
-  let touchX = 0;
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let swipeDirection = null; // 'horizontal' | 'vertical' | null
+
   carousel.addEventListener('touchstart', (e) => {
-    touchX = e.touches[0].clientX;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    swipeDirection = null;
   }, { passive: true });
 
+  carousel.addEventListener('touchmove', (e) => {
+    if (!touchStartX) return;
+    const dx = Math.abs(e.touches[0].clientX - touchStartX);
+    const dy = Math.abs(e.touches[0].clientY - touchStartY);
+
+    // Lock direction once the finger has moved enough
+    if (!swipeDirection && (dx > 8 || dy > 8)) {
+      swipeDirection = dx > dy ? 'horizontal' : 'vertical';
+    }
+
+    // If swiping horizontally on the carousel, prevent page scroll
+    if (swipeDirection === 'horizontal') {
+      e.preventDefault();
+    }
+  }, { passive: false });
+
   carousel.addEventListener('touchend', (e) => {
-    const delta = touchX - e.changedTouches[0].clientX;
-    if (Math.abs(delta) > 50) {
+    const delta = touchStartX - e.changedTouches[0].clientX;
+    if (swipeDirection === 'horizontal' && Math.abs(delta) > 50) {
       delta > 0 ? goTo(current + 1) : goTo(current - 1);
     }
+    touchStartX = 0;
+    touchStartY = 0;
+    swipeDirection = null;
   }, { passive: true });
 
   // Trackpad horizontal swipe (desktop only — skip on touch devices to prevent scroll jerk)
