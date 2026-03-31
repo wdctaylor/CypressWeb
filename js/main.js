@@ -102,17 +102,19 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     }
   }, { passive: true });
 
-  // Trackpad horizontal swipe (desktop)
-  let wheelLocked = false;
-  carousel.addEventListener('wheel', (e) => {
-    const isHorizontal = Math.abs(e.deltaX) > Math.abs(e.deltaY);
-    if (!isHorizontal || Math.abs(e.deltaX) < 20) return;
-    e.preventDefault();
-    if (wheelLocked) return;
-    wheelLocked = true;
-    setTimeout(() => { wheelLocked = false; }, 700);
-    e.deltaX > 0 ? goTo(current + 1) : goTo(current - 1);
-  }, { passive: false });
+  // Trackpad horizontal swipe (desktop only — skip on touch devices to prevent scroll jerk)
+  if (!('ontouchstart' in window)) {
+    let wheelLocked = false;
+    carousel.addEventListener('wheel', (e) => {
+      const isHorizontal = Math.abs(e.deltaX) > Math.abs(e.deltaY);
+      if (!isHorizontal || Math.abs(e.deltaX) < 20) return;
+      e.preventDefault();
+      if (wheelLocked) return;
+      wheelLocked = true;
+      setTimeout(() => { wheelLocked = false; }, 700);
+      e.deltaX > 0 ? goTo(current + 1) : goTo(current - 1);
+    }, { passive: false });
+  }
 })();
 
 // Contact form validation + stub submission
