@@ -1,23 +1,65 @@
 // Mobile tap: expand all cards, highlight the tapped one.
 // Desktop uses CSS :hover on the grid — no JS needed.
 const servicesGrid = document.querySelector('.services-grid');
+const serviceCards = Array.from(document.querySelectorAll('.service-card'));
 
-document.querySelectorAll('.service-card').forEach(card => {
-  card.addEventListener('click', () => {
-    const isActive = card.classList.contains('active');
-    document.querySelectorAll('.service-card').forEach(c => c.classList.remove('active'));
-    if (!isActive) {
-      card.classList.add('active');
-      servicesGrid.classList.add('expanded');
-      // After expansion animation settles, scroll the full card into view
-      setTimeout(() => {
-        card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }, 450);
-    } else {
-      servicesGrid.classList.remove('expanded');
-    }
-  });
+function activateCard(card) {
+  const isActive = card.classList.contains('active');
+  serviceCards.forEach(c => c.classList.remove('active'));
+  if (!isActive) {
+    card.classList.add('active');
+    servicesGrid.classList.add('expanded');
+    setTimeout(() => {
+      card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 450);
+  } else {
+    servicesGrid.classList.remove('expanded');
+  }
+}
+
+serviceCards.forEach(card => {
+  card.addEventListener('click', () => activateCard(card));
 });
+
+// Touch swipe on services grid (mobile): swipe left/right to cycle cards
+if ('ontouchstart' in window) {
+  let svcTouchStartX = 0;
+  let svcTouchStartY = 0;
+  let svcSwipeDir = null;
+
+  servicesGrid.addEventListener('touchstart', (e) => {
+    svcTouchStartX = e.touches[0].clientX;
+    svcTouchStartY = e.touches[0].clientY;
+    svcSwipeDir = null;
+  }, { passive: true });
+
+  servicesGrid.addEventListener('touchmove', (e) => {
+    const dx = Math.abs(e.touches[0].clientX - svcTouchStartX);
+    const dy = Math.abs(e.touches[0].clientY - svcTouchStartY);
+    if (!svcSwipeDir && (dx > 8 || dy > 8)) {
+      svcSwipeDir = dx > dy ? 'horizontal' : 'vertical';
+    }
+    if (svcSwipeDir === 'horizontal') e.preventDefault();
+  }, { passive: false });
+
+  servicesGrid.addEventListener('touchend', (e) => {
+    const delta = svcTouchStartX - e.changedTouches[0].clientX;
+    if (svcSwipeDir === 'horizontal' && Math.abs(delta) > 50) {
+      const activeIndex = serviceCards.findIndex(c => c.classList.contains('active'));
+      const currentIndex = activeIndex === -1 ? -1 : activeIndex;
+      let nextIndex;
+      if (delta > 0) {
+        // swipe left → next card
+        nextIndex = currentIndex < serviceCards.length - 1 ? currentIndex + 1 : 0;
+      } else {
+        // swipe right → previous card
+        nextIndex = currentIndex > 0 ? currentIndex - 1 : serviceCards.length - 1;
+      }
+      activateCard(serviceCards[nextIndex]);
+    }
+    svcSwipeDir = null;
+  }, { passive: true });
+}
 
 // Nav scroll state
 const navWrapper = document.querySelector('.nav-wrapper');
