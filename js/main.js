@@ -165,3 +165,62 @@ form.addEventListener('submit', (e) => {
       }
     });
 });
+
+// Scroll reveal animations
+(() => {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(({ isIntersecting, target: el }) => {
+      if (!isIntersecting) return;
+      observer.unobserve(el);
+
+      el.style.opacity = '1';
+      if (el.dataset.revealY) el.style.transform = 'translateY(0)';
+
+      // Clean up inline styles after transition so existing CSS takes back over
+      setTimeout(() => {
+        el.style.removeProperty('opacity');
+        el.style.removeProperty('transform');
+        el.style.removeProperty('transition');
+        delete el.dataset.revealY;
+      }, 1000);
+    });
+  }, {
+    threshold: 0.3,
+    rootMargin: '0px 0px -80px 0px'
+  });
+
+  function prep(el, delay = 0, withTransform = true) {
+    if (!el) return;
+    el.style.opacity = '0';
+    const d = delay ? ` ${delay}s` : '';
+    el.style.transition = withTransform
+      ? `opacity 0.85s ease${d}, transform 0.85s ease${d}`
+      : `opacity 0.85s ease${d}`;
+    if (withTransform) {
+      el.style.transform = 'translateY(20px)';
+      el.dataset.revealY = '1';
+    }
+    observer.observe(el);
+  }
+
+  // Our Story
+  prep(document.querySelector('.our-story-label'));
+  prep(document.querySelector('.our-story-carousel'), 0.1);
+  prep(document.querySelector('.our-story-photo'), 0.2);
+
+  // Services
+  prep(document.querySelector('.services .section-header'));
+  // Cards: fade only — withTransform=false avoids conflict with hover lift
+  document.querySelectorAll('.service-card').forEach((el, i) => prep(el, i * 0.07, false));
+
+  // Stats — staggered fade up
+  document.querySelectorAll('.stat').forEach((el, i) => prep(el, i * 0.12));
+
+  // Contact
+  prep(document.querySelector('.contact-text'));
+  prep(document.querySelector('.contact-form'), 0.15);
+
+  // Footer
+  prep(document.querySelector('.footer-brand'));
+  document.querySelectorAll('.footer-links').forEach((el, i) => prep(el, (i + 1) * 0.1));
+})();
