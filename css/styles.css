@@ -1142,6 +1142,7 @@ cite {
   .hero-scripture:not(.hero-scripture-mobile) { display: none; }
 
   .hero-scripture-mobile {
+    display: block;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -1150,6 +1151,7 @@ cite {
     text-align: center;
     background: rgba(255, 255, 255, 0.82);
     padding: 17px 20px;
+    z-index: 2;
   }
 
   .hero-scripture-mobile p {
