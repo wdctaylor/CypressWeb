@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social Content Blueprint — LAM Bespoke × Cypress Wood Advertising</title>
+
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F8F5F0;
+    --cream-dark: #EDE8E0;
+    --brown-dark: #3B2F20;
+    --brown-mid: #6B5B4B;
+    --brown-light: #8C7B6B;
+    --olive: #7A7252;
+    --olive-light: #9E9676;
+    --gold: #C4A265;
+    --gold-muted: #B8A07A;
+    --text-body: #4A4038;
+    --rule-color: #D4CBC0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #E8E3DC;
+    color: var(--text-body);
+    -webkit-font-smoothing: antialiased;
+    font-family: 'Cormorant Garamond', serif;
+    padding: 40px 24px;
+  }
+
+  .page {
+    max-width: 1188px;
+    margin: 0 auto;
+    padding: 60px 60px 80px;
+    background: var(--cream);
+    box-shadow: 0 2px 24px rgba(59,47,32,0.08);
+    border-radius: 4px;
+  }
+
+  /* ── Top bar ── */
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .cwa-logo-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .cwa-logo-header img {
+    width: 36px;
+    height: 36px;
+    border-radius: 4px;
+  }
+
+  .cwa-brand {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 4.5px;
+    text-transform: uppercase;
+    color: var(--olive);
+    transition: color 0.25s ease;
+  }
+
+  .cwa-brand:hover {
+    color: var(--gold);
+  }
+
+  .prepared-for {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--brown-light);
+  }
+
+  .top-rule {
+    width: 100%;
+    height: 1.5px;
+    background: linear-gradient(90deg, var(--gold-muted), var(--rule-color) 40%, transparent);
+    margin-bottom: 48px;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    margin-bottom: 40px;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 500;
+    font-size: clamp(30px, 3.5vw, 42px);
+    line-height: 1.18;
+    color: var(--brown-dark);
+    letter-spacing: -0.3px;
+    margin-bottom: 10px;
+  }
+
+  .hero h1 em { font-style: italic; color: var(--olive); }
+
+  .hero-sub {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--brown-light);
+  }
+
+  /* ── Intro ── */
+  .intro {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    line-height: 1.72;
+    color: var(--text-body);
+    margin-bottom: 32px;
+    max-width: 92%;
+  }
+
+  .intro strong { color: var(--brown-dark); font-weight: 500; }
+
+  /* ── Callout ── */
+  .lam-callout {
+    background: var(--cream-dark);
+    border-left: 3px solid var(--gold-muted);
+    padding: 16px 20px;
+    margin-bottom: 36px;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .lam-callout p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    line-height: 1.62;
+    color: var(--text-body);
+  }
+
+  .lam-callout strong { color: var(--brown-dark); font-weight: 500; }
+
+  .lam-callout .stat {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--gold);
+    letter-spacing: 0.5px;
+  }
+
+  /* ── Section label ── */
+  .section-label {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--olive);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 36px;
+    height: 1.5px;
+    background: var(--olive-light);
+  }
+
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: var(--rule-color);
+    margin: 56px 0 48px;
+  }
+
+  /* ── Benchmark grid ── */
+  .benchmark-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 24px;
+    margin-bottom: 8px;
+  }
+
+  .benchmark-card {
+    border: 1px solid var(--rule-color);
+    border-radius: 4px;
+    padding: 20px 22px 18px;
+    position: relative;
+    background: linear-gradient(160deg, var(--cream) 0%, #F5F1EA 100%);
+    transition: box-shadow 0.2s;
+  }
+
+  .benchmark-card:hover {
+    box-shadow: 0 2px 12px rgba(59,47,32,0.06);
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 4px;
+  }
+
+  .card-handle {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--brown-dark);
+    letter-spacing: 0.3px;
+  }
+
+  .card-handle a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule-color);
+    transition: color 0.15s, border-color 0.15s;
+  }
+
+  .card-handle a:hover {
+    color: var(--olive);
+    border-color: var(--olive-light);
+  }
+
+  .card-followers {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+
+  .card-category {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--olive-light);
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .card-insight {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--text-body);
+  }
+
+  .card-insight strong { color: var(--brown-dark); font-weight: 500; }
+
+  .card-number {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 30px;
+    color: var(--rule-color);
+    opacity: 0.45;
+    line-height: 1;
+  }
+
+  .benchmark-card.full-width {
+    grid-column: 1 / -1;
+  }
+
+  /* ── Pillar grid ── */
+  .pillar-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px 40px;
+    margin-bottom: 40px;
+  }
+
+  .pillar {
+    padding: 20px 0 0;
+    border-top: 1px solid var(--rule-color);
+  }
+
+  .pillar-number {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 26px;
+    color: var(--gold-muted);
+    margin-bottom: 4px;
+    line-height: 1;
+  }
+
+  .pillar-title {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--brown-dark);
+    margin-bottom: 8px;
+  }
+
+  .pillar-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14.5px;
+    line-height: 1.58;
+    color: var(--text-body);
+  }
+
+  /* ── CTA block ── */
+  .cta-area {
+    background: linear-gradient(145deg, #3B2F20 0%, #4D3E2D 100%);
+    border-radius: 6px;
+    padding: 44px 48px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-area::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-muted), transparent);
+  }
+
+  .cta-headline {
+    font-family: 'Playfair Display', serif;
+    font-weight: 500;
+    font-size: 26px;
+    color: var(--cream);
+    margin-bottom: 12px;
+    line-height: 1.28;
+  }
+
+  .cta-headline em { font-style: italic; color: var(--gold); }
+
+  .cta-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #C4BBB0;
+    margin-bottom: 28px;
+    max-width: 85%;
+  }
+
+  .cta-contact {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .contact-name {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 20px;
+    color: var(--cream);
+    margin-bottom: 4px;
+  }
+
+  .contact-title {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold-muted);
+    margin-bottom: 6px;
+  }
+
+  .contact-detail {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+    color: #A89E92;
+    letter-spacing: 0.3px;
+    line-height: 1.7;
+  }
+
+  .contact-detail a {
+    color: #A89E92;
+    text-decoration: none;
+  }
+
+  .contact-detail a:hover {
+    color: var(--gold);
+  }
+
+  .cta-logo-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+
+  .cta-logo-block img {
+    width: 52px;
+    height: 52px;
+    border-radius: 4px;
+  }
+
+  .cta-cwa-text {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 8px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold-muted);
+    text-align: right;
+    opacity: 0.7;
+    line-height: 1.6;
+  }
+
+
+  /* ── Print / PDF optimization ── */
+  @media print {
+    .page { padding: 40px 50px 40px; }
+    .top-rule { margin-bottom: 28px; }
+    .hero { margin-bottom: 24px; }
+    .hero h1 { font-size: 34px; margin-bottom: 6px; }
+    .hero-sub { margin-bottom: 12px; }
+    .intro { font-size: 15px; line-height: 1.6; margin-bottom: 20px; }
+    .lam-callout { padding: 10px 16px; margin-bottom: 22px; }
+    .lam-callout p { font-size: 13.5px; }
+    .section-label { margin-bottom: 16px; }
+    .benchmark-grid { gap: 12px 18px; }
+    .benchmark-card { padding: 14px 16px 12px; }
+    .card-handle { font-size: 13px; }
+    .card-insight { font-size: 13px; line-height: 1.45; }
+    .card-category { font-size: 8px; margin-bottom: 6px; }
+    .page-break { page-break-after: always; break-after: page; height: 0; margin: 0; padding: 0; border: none; }
+    .pillar-grid { gap: 16px 32px; margin-bottom: 28px; }
+    .pillar { padding: 14px 0 0; }
+    .pillar-number { font-size: 22px; }
+    .pillar-title { font-size: 11px; margin-bottom: 5px; }
+    .pillar-text { font-size: 13px; line-height: 1.48; }
+    .cta-area { padding: 32px 40px 28px; }
+    .cta-headline { font-size: 22px; margin-bottom: 8px; }
+    .cta-body { font-size: 14px; margin-bottom: 20px; }
+  }
+
+  /* ── Print ── */
+  @media print {
+    .cta-contact { flex-direction: row !important; align-items: flex-end !important; }
+    .cta-area { break-inside: avoid; }
+    .benchmark-card { break-inside: avoid; }
+    .pillar { break-inside: avoid; }
+  }
+
+  /* ── Page break (screen) ── */
+  .page-break {
+    width: 100%;
+    height: 1px;
+    background: var(--rule-color);
+    margin: 56px 0 48px;
+  }
+
+  /* ── Animations ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .anim-hero > * {
+    opacity: 0;
+    animation: fadeUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .anim-hero > *:nth-child(1) { animation-delay: 0.1s; }
+  .anim-hero > *:nth-child(2) { animation-delay: 0.4s; }
+
+  .top-bar, .top-rule {
+    opacity: 0;
+    animation: fadeIn 1s ease forwards;
+  }
+  .top-bar  { animation-delay: 0s; }
+  .top-rule { animation-delay: 0.2s; }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media print {
+    .anim-hero > *, .top-bar, .top-rule, .reveal {
+      opacity: 1 !important;
+      transform: none !important;
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .page { padding: 40px 24px 60px; }
+    .benchmark-grid { grid-template-columns: 1fr; }
+    .benchmark-card.full-width { grid-column: auto; }
+    .pillar-grid { grid-template-columns: 1fr; }
+    .cta-contact { flex-direction: column; align-items: flex-start; gap: 20px; }
+  }
+
+
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="cwa-logo-header">
+      <a href="https://cypresswoodadvertising.com/" target="_blank" rel="noopener" class="cwa-brand" style="text-decoration:none;">Cypress Wood Advertising</a>
+    </div>
+    <div class="prepared-for">Prepared for LAM Bespoke &nbsp;&middot;&nbsp; May 2026</div>
+  </div>
+  <div class="top-rule"></div>
+
+  <!-- Hero -->
+  <div class="hero anim-hero">
+    <h1>Elevating Your Feed:<br>A Social Content Blueprint<br>for <em>the Well-Tailored Home</em></h1>
+    <div class="hero-sub">Social Media Content Strategy &nbsp;&middot;&nbsp; Inspiration &amp; Benchmarks</div>
+  </div>
+
+  <!-- Intro -->
+  <p class="intro reveal">
+    LAM Bespoke already possesses what most brands spend years trying to build: <strong>a genuine story, a distinctive aesthetic, and a loyal community</strong>. Your family legacy, locally crafted furnishings, and "new traditional" point of view are exactly what today&rsquo;s design-savvy audience craves. The opportunity is translating that story into consistent, high-performing social content that reaches beyond Houston&rsquo;s design circles.
+  </p>
+
+  <!-- Lam Current State -->
+  <div class="lam-callout reveal">
+    <p><strong>Where you stand today:</strong> With <span class="stat">22K followers</span> on @see_you_at_lam and three showroom locations, you have a strong foundation. The brands below show what&rsquo;s possible when a boutique operation invests in intentional social content.</p>
+  </div>
+
+  <!-- Benchmark Section -->
+  <div class="section-label reveal">Brands Doing It Right</div>
+
+  <div class="benchmark-grid">
+
+    <div class="benchmark-card reveal">
+      <div class="card-number">1</div>
+      <div class="card-header">
+        <div class="card-handle"><a href="https://www.instagram.com/ameliatarbet/" target="_blank" rel="noopener">@ameliatarbet</a></div>
+        <div class="card-followers">20K</div>
+      </div>
+      <span class="card-category">Furniture &amp; Lighting Design</span>
+      <div class="card-insight">
+        Editorial-quality photography that makes showroom content feel <strong>personal, not corporate</strong>. Blends modern and vintage with a collected, soulful aesthetic. Most directly comparable to LAM&rsquo;s scale and category.
+      </div>
+    </div>
+
+    <div class="benchmark-card reveal">
+      <div class="card-number">2</div>
+      <div class="card-header">
+        <div class="card-handle"><a href="https://www.instagram.com/abranca/" target="_blank" rel="noopener">@abranca</a></div>
+        <div class="card-followers">69K</div>
+      </div>
+      <span class="card-category">Interior Design &amp; Product</span>
+      <div class="card-insight">
+        Alessandra Branca&rsquo;s feed is a masterclass in <strong>mixing old and new</strong>&mdash;classical interiors paired with European art. Builds personal brand alongside product through project reveals and behind-the-scenes storytelling.
+      </div>
+    </div>
+
+    <div class="benchmark-card reveal">
+      <div class="card-number">3</div>
+      <div class="card-header">
+        <div class="card-handle"><a href="https://www.instagram.com/thepottedboxwood/" target="_blank" rel="noopener">@thepottedboxwood</a></div>
+        <div class="card-followers">243K</div>
+      </div>
+      <span class="card-category">Home Tours &amp; Lifestyle</span>
+      <div class="card-insight">
+        Grew a massive audience by curating <strong>other designers&rsquo; work</strong>&mdash;not just her own. Proves that celebrating your community builds trust, reach, and a &ldquo;timeless, everything chic&rdquo; brand identity.
+      </div>
+    </div>
+
+    <div class="benchmark-card reveal">
+      <div class="card-number">4</div>
+      <div class="card-header">
+        <div class="card-handle"><a href="https://www.instagram.com/teklafabrics/" target="_blank" rel="noopener">@teklafabrics</a></div>
+        <div class="card-followers">490K</div>
+      </div>
+      <span class="card-category">Home Textiles &middot; Copenhagen</span>
+      <div class="card-insight">
+        Ultra-minimal, mood-driven photography and a <strong>restrained visual identity</strong> built nearly half a million followers. B-Corp storytelling adds depth beyond product.
+      </div>
+    </div>
+
+    <div class="benchmark-card reveal">
+      <div class="card-number">5</div>
+      <div class="card-header">
+        <div class="card-handle"><a href="https://www.instagram.com/thibaut_1886/" target="_blank" rel="noopener">@thibaut_1886</a></div>
+        <div class="card-followers">293K</div>
+      </div>
+      <span class="card-category">Wallpaper &amp; Fabrics &middot; Est. 1886</span>
+      <div class="card-insight">
+        A heritage brand that thrives on <strong>UGC and product-in-context imagery</strong>&mdash;featuring how real designers use their products in real rooms. Reels with design tips drive strong engagement.
+      </div>
+    </div>
+
+    <div class="benchmark-card reveal">
+      <div class="card-number">6</div>
+      <div class="card-header">
+        <div class="card-handle"><a href="https://www.instagram.com/shoppeamberinteriors/" target="_blank" rel="noopener">@shoppeamberinteriors</a></div>
+        <div class="card-followers">667K</div>
+      </div>
+      <span class="card-category">Retail &amp; Design Studio</span>
+      <div class="card-insight">
+        Amber Lewis turned a brick-and-mortar shop into a <strong>lifestyle brand</strong> through pattern mixing, vintage finds, and a cohesive laid-back California aesthetic across every touchpoint.
+      </div>
+    </div>
+
+    <div class="benchmark-card full-width reveal">
+      <div class="card-number">7</div>
+      <div class="card-header">
+        <div class="card-handle"><a href="https://www.instagram.com/studiomcgee/" target="_blank" rel="noopener">@studiomcgee</a></div>
+        <div class="card-followers">4M</div>
+      </div>
+      <span class="card-category">Design Firm &amp; Product Line &middot; The Gold Standard</span>
+      <div class="card-insight">
+        The most successful design brand on Instagram. <strong>98% of their clients find them through social media.</strong> Studio McGee converts portfolio content into shoppable inspiration&mdash;making design feel accessible and inviting. Their approach of building a personal brand over a business brand, paired with behind-the-scenes content, is directly relevant to LAM&rsquo;s trajectory.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- Strategy Section -->
+  <div class="hero anim-hero" style="margin-bottom: 28px;">
+    <h1 style="font-size: clamp(26px, 3vw, 34px);">Six Pillars for <em>Social Success</em></h1>
+    <div class="hero-sub">Actionable strategies drawn from the brands above</div>
+  </div>
+
+  <p class="intro reveal" style="margin-bottom: 32px;">
+    Each of the benchmark brands above shares common principles that drive their success. Here&rsquo;s how we&rsquo;d adapt those principles into a tailored content strategy for LAM Bespoke.
+  </p>
+
+  <div class="pillar-grid">
+
+    <div class="pillar reveal">
+      <div class="pillar-number">01</div>
+      <div class="pillar-title">Own Your Brand Identity</div>
+      <div class="pillar-text">
+        Refine @see_you_at_lam into a clear visual destination. A memorable profile photo, a bio that captures &ldquo;the well-tailored home,&rdquo; and a cohesive grid aesthetic that reflects LAM&rsquo;s new traditional point of view&mdash;just like Tekla&rsquo;s disciplined visual identity.
+      </div>
+    </div>
+
+    <div class="pillar reveal">
+      <div class="pillar-number">02</div>
+      <div class="pillar-title">Invest in High-Quality Imagery</div>
+      <div class="pillar-text">
+        Showroom photography, styled vignettes, and custom fabric close-ups that match the editorial standard of @ameliatarbet and @shoppeamberinteriors. In the home d&eacute;cor space, visual quality is the price of entry.
+      </div>
+    </div>
+
+    <div class="pillar reveal">
+      <div class="pillar-number">03</div>
+      <div class="pillar-title">Build Community, Not Just Followers</div>
+      <div class="pillar-text">
+        Engage with Houston&rsquo;s design community&mdash;respond to comments, feature trade partners, run polls and Q&amp;As in Stories. @thepottedboxwood grew to 243K largely by celebrating others&rsquo; work.
+      </div>
+    </div>
+
+    <div class="pillar reveal">
+      <div class="pillar-number">04</div>
+      <div class="pillar-title">Use Hashtags with Intention</div>
+      <div class="pillar-text">
+        Targeted hashtags like #HoustonDesign, #BespokeInteriors, #NewTraditional, and #UpholsteredFurniture connect LAM to both consumers searching for inspiration and trade professionals sourcing vendors.
+      </div>
+    </div>
+
+    <div class="pillar reveal">
+      <div class="pillar-number">05</div>
+      <div class="pillar-title">Collaborate Strategically</div>
+      <div class="pillar-text">
+        Partner with Houston-based interior designers, architects, and lifestyle photographers. Cross-tagging on project reveals expands reach organically&mdash;the same approach that fueled @abranca and @studiomcgee&rsquo;s growth.
+      </div>
+    </div>
+
+    <div class="pillar reveal">
+      <div class="pillar-number">06</div>
+      <div class="pillar-title">Post Consistently</div>
+      <div class="pillar-text">
+        Establish a regular cadence&mdash;3 to 4 feed posts per week, daily Stories&mdash;so the algorithm rewards the account and followers know when to expect new content. Consistency compounds over time.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CTA Block -->
+  <div class="cta-area reveal">
+    <div class="cta-headline">We&rsquo;d love to help LAM build a social strategy<br>as thoughtfully crafted as <em>your furnishings.</em></div>
+    <div class="cta-body">
+      From content calendars and photography direction to community management and paid amplification&mdash;Cypress Wood Advertising partners with brands who value craftsmanship in every detail. Let&rsquo;s start the conversation.
+    </div>
+    <div class="cta-contact">
+      <div>
+        <div class="contact-name">Leslie Turner</div>
+        <div class="contact-title">Account Contact</div>
+        <div class="contact-detail">
+          <a href="mailto:cypresswoodadv@gmail.com">cypresswoodadv@gmail.com</a><br>
+          <a href="tel:3014422276">301-442-2276</a><br>
+          Visit: <a href="https://cypresswoodadvertising.com/" target="_blank" rel="noopener">cypresswoodadvertising.com</a>
+        </div>
+      </div>
+      <div class="cta-cwa-text">Cypress Wood<br>Advertising</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const siblings = [...el.parentElement.querySelectorAll('.reveal')];
+        const index = siblings.indexOf(el);
+        el.style.transitionDelay = (index * 0.07) + 's';
+        el.classList.add('visible');
+        observer.unobserve(el);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
